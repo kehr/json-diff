@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JSON diff</title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../diff.css">
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../diff.js"></script>
+</head>
+
+<body cz-shortcut-listen="true">
+    <nav class="navbar navbar-common">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"><i class="fa fa-first-order" aria-hidden="true"></i> 前端实验室</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-small">
+                    <li><a class="nav-link-item" href="/"> DIFF</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="page-head">
+        <div class="title">
+            <i class="fa fa-hand-peace-o" aria-hidden="true"></i> Json diff —— 目前为止最好用的 diff 工具。
+        </div>
+        <div class="desc">
+            <p></p>
+            <ul>
+                <li><span class="label label-warning">黄色部分</span> 为新旧版本不同（左旧右新）</li>
+                <li><span class="label label-danger" style="text-decoration:line-through">红色部分</span> 版本缺失的部分</li>
+                <li><span class="label label-success">绿色部分</span> 为旧版本没有，新版本新增的部分</li>
+            </ul>
+        </div>
+    </div>
+    <div id="view" class="container">
+        <section id="sources">
+            <textarea id="text1" class="form-control mid" rows="10"></textarea>
+            <textarea id="text2" class="form-control mid" rows="10"></textarea>
+        </section>
+        <div class="range text-center">
+            <button id="compare" class="btn btn-primary" type="button">对比</button>
+            <button id="swap" class="btn btn-success" type="button">交换</button>
+            <button id="clear" class="btn btn-danger" type="button">清空</button>
+            <button id="expand" class="btn btn-default" type="button">全部展开</button>
+            <button id="collapseAll" class="btn btn-default" type="button">全部收起</button>
+            <button id="collapse" class="btn btn-default" type="button">只看 diff</button>
+            <button id="fade-in" class="btn btn-default" type="button">fadeIn</button>
+            <button id="fade-out" class="btn btn-default" type="button">fadeOut</button>
+        </div>
+        <section id="result" style="min-height:300px;"></section>
+    </div>
+    <script type="text/javascript">
+    var jt1 = {
+        "format": "example",
+        "content": [{
+            "align": "center",
+            "depth": 0,
+            "list": false,
+            "content": [{
+                "style": {
+                    "underline": 1,
+                    "bold": 2,
+                    "size": 20,
+                    "italic": 2,
+                    "color": "FFFFFF",
+                    "fontFamily": "Arial"
+                },
+                "content": "And please, feel free to send us your feedback and comments to "
+            }, {
+                "style": {
+                    "underline": 1,
+                    "size": 20,
+                    "italic": 2,
+                    "color": "4DC3FF",
+                    "fontFamily": "Arial"
+                },
+                "content": "hello world"
+            }, {
+                "style": {
+                    "underline": 1,
+                    "bold": 2,
+                    "size": 20,
+                    "italic": 2,
+                    "color": "FFFFFF",
+                    "fontFamily": "Arial"
+                },
+                "content": ", or just by clicking on the "
+            }, {
+                "style": {
+                    "underline": 1,
+                    "bold": 2,
+                    "size": 20,
+                    "italic": 2,
+                    "color": "4DC3FF",
+                    "fontFamily": "Arial"
+                },
+                "content": "feedback"
+            }, {
+                "content": " button up above.",
+                "style": {
+                    "size": 20,
+                    "color": "FFFFFF",
+                    "name": "Arial",
+                    "bold": 2,
+                    "italic": 2,
+                    "underline": 2
+                }
+            }],
+            "ordered": false
+        }],
+        "version": 3
+    };
+    var jt2 = {
+        "format": "example",
+        "version": 3.1,
+        "content": [{
+            "list": false,
+            "depth": 0,
+            "ordered": false,
+            "content": [{
+                "content": "And please, feel free to send us your feedbamments to ",
+                "style": {
+                    "size": 20,
+                    "color": "FFFFFF",
+                    "name": "Arial",
+                    "bold": 2,
+                    "italic": 2,
+                    "underline": 2
+                }
+            }, {
+                "content": "foo",
+                "style": {
+                    "size": 20,
+                    "color": "4DC2FF",
+                    "name": "Arial",
+                    "bold": 2,
+                    "italic": 2,
+                    "underline": 2
+                }
+            }, {
+                "content": ", or just by clicking on the ",
+                "style": {
+                    "size": 20,
+                    "color": "FFFFFF",
+                    "name": "Arial",
+                    "bold": 2,
+                    "italic": 2,
+                    "underline": 2
+                }
+            }, {
+                "content": "feedback",
+                "style": {
+                    "size": 20,
+                    "color": "4DC2FF",
+                    "name": "Arial",
+                    "bold": 2,
+                    "italic": 2,
+                    "underline": 2
+                }
+            }, {
+                "content": " button up above.",
+                "style": {
+                    "size": 20,
+                    "color": "FFFFFF",
+                    "name": "Arial",
+                    "bold": 2,
+                    "italic": 2,
+                    "underline": 2
+                }
+            }],
+            "align": "center"
+        }]
+    };
+
+    var t1 = document.getElementById("text1");
+
+    t1.value = JSON.stringify(jt1);
+
+    var t2 = document.getElementById("text2");
+    t2.value = JSON.stringify(jt2);
+
+    var _diff = new Diff({
+        "left": "text1",
+        "right": "text2",
+        "targetId": "result"
+    });
+
+
+    $("#compare").click(function() {
+        _diff.compare();
+    });
+    $("#swap").click(function() {
+        _diff.swap();
+    });
+    $("#clear").click(function() {
+        _diff.clear();
+    });
+
+    $("#expand").click(function() {
+        _diff.expandAll();
+    });
+
+    $("#fade-in").click(function() {
+        _diff.fadeIn();
+    });
+
+    $("#fade-out").click(function() {
+        _diff.fadeOut();
+    });
+
+    $("#collapseAll").click(function() {
+        _diff.collapseAll();
+    });
+
+    $("#collapse").click(function() {
+        _diff.collapse(document.getElementById("result"));
+    });
+    </script>
+</body>
+
+</html>

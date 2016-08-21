@@ -1,0 +1,80 @@
+.changed .key,
+.added .key,
+.removed .key {
+    font-weight: 600;
+}
+
+.ichanged,
+.changed {
+    color: #ec971f;
+}
+
+.iremoved,
+.removed {
+    color: #E23E57;
+    text-decoration: line-through;
+}
+
+.iadded,
+.added {
+    color: #449d44;
+}
+
+.json ul {
+    padding-left: 15px;
+    margin-left: -5px;
+    padding-top: 5px;
+    margin-top: -7px;
+    list-style-type: none;
+    background-image: url(./line.gif);
+    background-repeat: repeat-y;
+    background-position-y: 13px;
+    background-position-x: 0;
+}
+
+.json.j-fade li {
+    color: #aaa;
+}
+
+.json * {
+    -webkit-transition: color .05s ease;
+       -moz-transition: color .05s ease;
+         -o-transition: color .05s ease;
+            transition: color .1s ease;
+}
+
+.json.line-off ul {
+    background-image: none;
+}
+
+.json ul[collapsed="on"] {
+    background-image: none;
+}
+
+.json ul[collapsed="on"] > * {
+    display: none;
+}
+
+.json ul[collapsed="on"] > *:first-child {
+    display: block;
+}
+
+.json li {
+    margin-top: 1px;
+    padding-left: 15px;
+}
+
+.json ul:before,
+.json ul[collapsed="off"]:before {
+    cursor: pointer;
+    content: "\f0d7";
+    position: absolute;
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-left: -12px;
+    margin-top: 3px;
+}
+
+.json ul[collapsed="on"]:before {
+    content: "\f0da";
+}
+

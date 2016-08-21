@@ -1,0 +1,242 @@
+body {
+    min-width: 1100px;
+}
+
+/*清除 bootstrap 按钮在focus状态下 border 高亮的效果*/
+a:focus,
+button:focus {
+    outline-width: 0 !important;
+}
+
+.navbar-common {
+    border-radius: 0;
+    margin: 0;
+}
+
+.navbar-common a {
+    color: #6f5499;
+}
+
+#page-head {
+    height: 220px;
+    width: 100%;
+    margin-bottom: 30px;
+    background-color: #6f5499;
+    padding: 45px 88px;
+    color: #fff;
+}
+
+#page-head .title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#page-head .desc a {
+    color: #03A9F4;
+}
+
+#page-head .desc ul li {
+    padding: 2px 0;
+}
+
+.title-icon {
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: -3px;
+}
+
+.title-icon .prefix {
+    border: 1px solid #ccc;
+    margin: 0 3px;
+    font-size: 18px;
+}
+
+.title-icon .prefix:first-child {
+    font-size: 10px;
+}
+
+.title-icon .prefix:last-child {
+    font-size: 10px;
+}
+
+#title {
+    color: #464242;
+    font-weight: 600;
+    font-size: 18px;
+    display: inline-block;
+}
+
+.panel-common {
+    border: 1px solid #eee;
+}
+
+.panel-common .panel-heading {
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+}
+
+.panel-common .panel-heading .label {
+    position: relative;
+    top: -2px;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.top-row,
+.left-col,
+.corner {
+    font-weight: 600;
+}
+
+.chart {
+    display: inline-block;
+}
+
+.chart.mid {
+    width: 49%;
+    /*height: 450px;*/
+}
+
+.red {
+    color: #c9302c;
+}
+
+.green {
+    color: #5cb85c;
+}
+
+.yellow {
+    color: #ec971f;
+}
+
+.font-small {
+    font-size: 12px;
+}
+
+.font-mid {
+    font-size: 14px;
+}
+
+.font-large {
+    font-size: 16px;
+}
+
+.font-bold {
+    font-weight: 600;
+}
+
+.overview {
+    display: inline-block;
+    width: 48%;
+    text-align: right;
+    padding: 15px 30px;
+    color: #fff;
+    margin-left: 15px;
+    background-color: #ddd;
+}
+.block {
+    display: inline-block;
+}
+
+.top-container {
+    border-bottom: 1px solid #eee;
+}
+
+.left-container {
+    width: 30%;
+    float: left;
+}
+
+.left-container .side {
+    height: 265px;
+    overflow: auto;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+}
+
+.right-container {
+    float: right;
+    width: 68%;
+}
+
+.mid {
+    width: 49%;
+    resize: none;
+    display: inline-block;
+}
+
+.mid:last-child {
+    margin-left: 10px;
+}
+
+.range {
+    /*border: 1px solid #eee;*/
+    border-radius: 4px;
+    padding: 15px 10px;
+}
+
+a:focus,
+button:focus {
+    outline: 0 !important;
+}
+
+.overview .title {
+    font-size: 16px;
+}
+
+.overview .desc {
+    font-size: 18px;
+}
+
+.overview .fa {
+    float: left;
+    font-size: 70px;
+    opacity: .5;
+}
+
+.overview.default {
+    background-color: #777;
+}
+
+.overview.primary {
+    background-color: #337ab7;
+}
+
+.overview.success {
+    background-color: #5cb85c;
+}
+
+.overview.info {
+    background-color: #5bc0de;
+}
+
+.overview.warning {
+    background-color: #f0ad4e;
+}
+
+.overview.danger {
+    background-color: #d9534f;
+}
+.table td {
+    white-space: nowrap;
+}
+@media (min-width: 768px) {
+    .container {
+        width: 768px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 992px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1200px;
+    }
+}
