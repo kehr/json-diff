@@ -1,18 +1,13 @@
 'use strict';
-
 /**
- * @author Wangkaixuan <zhwangkaixuan@163.com>
- * @file 这是一个比较两个 JSON 对象的轻量级 JavaScript 插件。不依赖任何第三方库。
- * 支持：diff 过滤、展开 diff、全部展开、全部收起 等功能。感谢 tlrobinson <http://tlrobinson.net/projects/javascript-fun/jsondiff>提供的源码参考
- *
+ * @file diff.js
  */
 
+
 /**
- * @class 使用 Diff.js 前，你需要提供两个 textarea id 和一个额外的 div id。
- * textarea 用于放置需要比较的两个json字符串，额外的 div 用于接收 diff 结果。
- * @param {string} textId1 textarea id1
- * @param {string} textId2 textarea id2
- * @param {string} resId The result container id
+ * json diff
+ * @param {string} id1 textarea id
+ * @param {string} id2 textarea id
  */
 
 var Diff = function (options) {
@@ -37,7 +32,7 @@ var Diff = function (options) {
 };
 
 /**
- * diff 初始化，供构造函数调用。
+ * initialize all event listener
  */
 Diff.prototype.initialize = function () {
     document.addEventListener('click', function (e) {
@@ -58,7 +53,7 @@ Diff.prototype.initialize = function () {
 
 
 /**
- * 交换两个 textarae 内容
+ * Swap the two textarea content
  */
 Diff.prototype.swap = function () {
     var tmp = this.area1.value;
@@ -67,7 +62,7 @@ Diff.prototype.swap = function () {
 };
 
 /**
- * 清空两个 textarea 内容
+ * Clear the two textarea content
  */
 Diff.prototype.clear = function () {
     this.area1.value = '';
@@ -75,8 +70,8 @@ Diff.prototype.clear = function () {
 };
 
 /**
- * 删除指定 DOM 对象的所有子节点
- * @param {Object} node 待清空的 DOM 对象
+ * Remove all children node
+ * @param {Object} node The tree node of json node
  */
 Diff.prototype.remove = function (node) {
     var child;
@@ -85,19 +80,19 @@ Diff.prototype.remove = function (node) {
     }
 };
 
-
 /**
- * @class Diff 工具类
+ * Utils
  */
-var Utils = {};
+
+Diff.prototype.utils = {};
 
 /**
- * 为 target 中添加 class, 同 jQuery.addClass
+ * Add class to target
  * @param {Object} target target
- * @param {...string} className
+ * ...
  * @return {Object} target Object
  */
-Utils.prototype.addClass = function () {
+Diff.prototype.utils.addClass = function () {
     var target = arguments[0];
     var oldClass = target.getAttribute('class').trim().split(' ');
     for (var i = 1; i < arguments.length; ++i) {
@@ -110,12 +105,12 @@ Utils.prototype.addClass = function () {
 };
 
 /**
- * 从 target 移除 class, 同 jQuery.removeClass
+ * Remove target class
  * @param {Object} target target
- * @param {...string} className
+ * ...
  * @return {Object} target Object
  */
-Utils.prototype.removeClass = function () {
+Diff.prototype.utils.removeClass = function () {
     var target = arguments[0];
     var oldClass = target.getAttribute('class').trim().split(' ');
 
@@ -136,12 +131,11 @@ Utils.prototype.removeClass = function () {
 };
 
 /**
- * 检查 options 中是否存在必要的 key，如果所有的 key 都存在则返回true，否则返回false。
+ * options 中是否存在必要的 key
  * @param {Object} options A dict Object
  * @param {Array} keys The needed key list
- * @return {boolean} true|fasle
  */
-Utils.prototype.must = function (options, keys) {
+Diff.prototype.utils.must = function (options, keys) {
     if (!this.isArray(keys)) {
         throw new Error('The parameter [keys] must is array, but ' + this.type(keys));
     }
@@ -154,12 +148,12 @@ Utils.prototype.must = function (options, keys) {
 };
 
 /**
- * 对象深度拷贝。将 obj 中的内容追加到 target 中
+ * Deep copy
  * @param  {Object} target other attr will be deep copied into target
- * @param  {...Object} obj Addition ojbect
- * @return {Object} target
+ * @param  {Object} obj    Addition ojbect
+ * @return {Object}        target
  */
-Utils.prototype.extend = function (target, obj) {
+Diff.prototype.utils.extend = function (target, obj) {
     for (var key in obj) {
         if (obj.hasOwnProperty(key)) {
             var type = this.type(key);
@@ -177,18 +171,18 @@ Utils.prototype.extend = function (target, obj) {
 /**
  * 判断是否为数组
  * @param  {Object}  obj 待判断的对象
- * @return {boolean} true|false
+ * @return {boolean}     true/false
  */
-Utils.prototype.isArray = function (obj) {
+Diff.prototype.utils.isArray = function (obj) {
     return obj && 'object' === typeof obj && Array === obj.constructor;
 };
 
 /**
  * 获取对象类型
- * @param  {Object} obj 待确认类型的对象
+ * @param  {Object} obj object
  * @return {string}
  */
-Utils.prototype.type = function (obj) {
+Diff.prototype.utils.type = function (obj) {
     return this.isArray(obj) ? 'array' : typeof obj;
 };
 
@@ -207,16 +201,10 @@ Diff.prototype.fadeIn = function () {
 };
 
 /**
- * 注册工具类接口
- * @type {Utils}
- */
-Diff.prototype.utils = new Utils();
-
-/**
- * 展开结果中整个 DOM 树
+ * Expand all node
  * @param  {Object} root  the root element Object
  */
-Diff.prototype.expand = function (root) {
+Diff.prototype.expandAll = function (root) {
     var root = root || document.getElementById(this.options.resultsId);
     // 广度优先
     var children = root.children;
@@ -224,20 +212,20 @@ Diff.prototype.expand = function (root) {
         if (children[i].tagName.toLowerCase() === 'ul') {
             children[i].setAttribute('collapsed', 'off');
         }
-        this.expand(children[i]);
+        this.expandAll(children[i]);
     }
 };
 
 /**
- * 收起结果中整个 DOM 树
+ * 收起Json树
  * @param  {Object} root  the root element Object
  */
-Diff.prototype.collapse = function (root) {
+Diff.prototype.collapseAll = function (root) {
     var root = root || document.getElementById(this.options.resultsId);
     // 深度优先
     var children = root.children;
     for (var i = 0; i < children.length; ++i) {
-        this.collapse(children[i]);
+        this.collapseAll(children[i]);
         if (children[i].tagName.toLowerCase() === 'ul') {
             children[i].setAttribute('collapsed', 'on');
         }
@@ -245,10 +233,10 @@ Diff.prototype.collapse = function (root) {
 };
 
 /**
- * 只显示 diff 内容，收起非 diff 部分。
- * @param  {Object} root  The root element Object
+ * 收起非diff部分的JSON树
+ * @param  {Object} root  the root element Object
  */
-Diff.prototype.diff = function (root) {
+Diff.prototype.collapse = function (root) {
     var root = root || document.getElementById(this.options.resultsId);
     var children = root.children;
     for (var i = 0; i < children.length; ++i) {
@@ -271,17 +259,18 @@ Diff.prototype.diff = function (root) {
                 if (parent.tagName.toLowerCase() === 'ul') {
                     parent.setAttribute('collapsed', 'on');
                 }
-                this.diff(children[i]);
+                this.collapse(children[i]);
             }
         }
         else {
-            this.diff(children[i]);
+            this.collapse(children[i]);
         }
     }
 };
 
 /**
- * 比较两个 json 对象的 diff（调用 compareTree）
+ * Compare the two textarea json content
+ * @return {undefined} undefined
  */
 Diff.prototype.compare = function () {
     try {
@@ -320,7 +309,7 @@ Diff.prototype.compare = function () {
 };
 
 /**
- * 递归（深度优先）比较两个 json 对象
+ * Compare two json Object
  * @param  {Object} leftObj    json Object
  * @param  {Object} rightObj    json Object
  * @param  {string} name    node name
@@ -457,4 +446,3 @@ Diff.prototype.compareTree = function (leftObj, rightObj, name, results) {
 //         return new Diff(id1, id2, resId);
 //     };
 // }(jQuery));
-
