@@ -1,5 +1,6 @@
 'use strict';
 /**
+ * @owner: Kehr<kehr.china@gmail.com>
  * @file diff.js
  */
 
